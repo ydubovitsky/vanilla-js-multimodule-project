@@ -1,9 +1,10 @@
 import "./main.scss";
+import Quote from "./modules/quote-generator";
 
-function component(text) {
-  const element = document.createElement('h1');
-  element.textContent = text;
-  return element;
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const quote = new Quote();
+  const root = document.getElementById("root");
 
-document.body.prepend(component('Проект собран на Webpack!'));
+  root.append(quote.render());
+  quote.initEvents();
+})
