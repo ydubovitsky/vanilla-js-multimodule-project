@@ -5,3 +5,22 @@ html {
   font-size: $font-size;
   color: $font-color;
 }
+
+#root {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+}
+
+.routes {
+  min-height: 100vh;
+  text-align: center;
+  display: flex;
+  padding: 5px;
+  justify-content: center;
+  align-items: flex-start;
+  box-shadow: 1px 1px 1px silver;
+
+  a {
+    font-size: large;
+  }
+}

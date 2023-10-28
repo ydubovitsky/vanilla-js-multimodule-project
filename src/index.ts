@@ -1,9 +1,9 @@
 import "./main.scss";
+import Routes from "./routes";
 
-function component(text : string) : HTMLHeadingElement {
-  const element : HTMLHeadingElement = document.createElement('h1');
-  element.textContent = text;
-  return element;
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const rootElement : HTMLElement = document.getElementById("root");
+  const routes = new Routes(rootElement);
 
-document.body.prepend(component('Проект собран на Webpack!'));
+  rootElement.append(routes.elements.rootNavElement, routes.elements.outlet);
+})
