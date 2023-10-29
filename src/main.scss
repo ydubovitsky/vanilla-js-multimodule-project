@@ -1,5 +1,5 @@
 $font-size: 1rem;
-$font-color: lch(28 99 35);
+$font-color: black;
 
 html {
   font-size: $font-size;
@@ -8,19 +8,32 @@ html {
 
 #root {
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: max-content 1fr;
 }
 
 .routes {
   min-height: 100vh;
   text-align: center;
   display: flex;
-  padding: 5px;
-  justify-content: center;
+  gap: 10px;
+  flex-direction: column;
+  padding: 10px;
+  justify-content: flex-start;
   align-items: flex-start;
   box-shadow: 1px 1px 1px silver;
 
   a {
+    width: 100%;
+    background: #23AAF2;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
     font-size: large;
+    transition: 0.3s;
+  }
+
+  a:active {
+    transform: scale(0.95);
   }
 }

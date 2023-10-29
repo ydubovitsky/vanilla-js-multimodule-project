@@ -1,4 +1,5 @@
 import Quote from "./modules/quote-generator";
+import InfinityScroll from "./modules/infinity-scroll";
 
 type DataElementsType = {
   [name: string]: HTMLElement
@@ -25,6 +26,7 @@ export default class Routes {
     const html = `
       <div class="routes">
         <a href="/quotes-generator" data-element="quotes__generator__href">Quotes Generator</a>
+        <a href="/infinity-scroll" data-element="infinity__scroll__href">Infinity Scroll</a>
       </div>
     `
     return html;
@@ -64,6 +66,15 @@ export default class Routes {
             e.preventDefault();
             this.outlet.innerHTML = "";
             this.outlet.append(new Quote().element);
+            this.changeLocation(e);
+          })
+          break;
+        }
+        case "infinity__scroll__href": {
+          this.#dataElements[key].addEventListener("click", e => {
+            e.preventDefault();
+            this.outlet.innerHTML = "";
+            this.outlet.append(new InfinityScroll().element);
             this.changeLocation(e);
           })
           break;
