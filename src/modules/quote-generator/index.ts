@@ -1,11 +1,12 @@
 import { LoremIpsum } from "lorem-ipsum";
 import "./index.scss";
+import ElementInterface from "../../types/ElementInterface";
 
 type DataElementsEntityType = {
   [key: string]: HTMLElement
 }
 
-export default class Quote {
+export default class Quote implements ElementInterface {
   dataElementsEntity: DataElementsEntityType;
   lorem: LoremIpsum;
   interval: NodeJS.Timeout;

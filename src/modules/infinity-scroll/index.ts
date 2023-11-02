@@ -1,3 +1,4 @@
+import ElementInterface from "../../types/ElementInterface";
 import getImageRequest, { ImageInterface } from "./image-service"
 import "./index.scss";
 
@@ -5,7 +6,7 @@ type DataElementType = {
   [name: string]: HTMLElement
 }
 
-export default class InfinityScroll {
+export default class InfinityScroll implements ElementInterface {
   element: Element;
   #dataElements: DataElementType;
   #isLoading: boolean;
