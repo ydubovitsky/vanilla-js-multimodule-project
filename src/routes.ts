@@ -1,14 +1,14 @@
-import Quote from "./modules/quote-generator";
-import InfinityScroll from "./modules/infinity-scroll";
+import ElementInterface from "./types/ElementInterface";
 
 type DataElementsType = {
-  [name: string]: HTMLElement
-}
+  [name: string]: HTMLElement;
+};
 
+//TODO Имя поменяй
 type ElementsType = {
-  "rootNavElement": Element;
-  "outlet": Element
-}
+  rootNavElement: Element;
+  outlet: Element;
+};
 
 export default class Routes {
   #dataElements: DataElementsType;
@@ -16,32 +16,43 @@ export default class Routes {
   root: HTMLElement;
   outlet: HTMLElement;
 
-  constructor(root: HTMLElement) {
+  //TODO Вынести в отдельный интерфейс
+  routeMap: Map<string, ElementInterface>;
+
+  constructor(root: HTMLElement, routeMap: Map<string, ElementInterface>) {
     this.root = root;
+    this.routeMap = routeMap;
     this.render();
     this.initEvents();
   }
 
   getTemplate(): string {
+    const getHrefElements = () => {
+      return Array.from(
+        this.routeMap,
+        ([key, value]) => `<a href="/${key}" data-element="${key}">${key}</a>`
+      ).reduce((prev, cur) => prev + cur, "");
+    };
+
     const html = `
       <div class="routes">
-        <a href="/quotes-generator" data-element="quotes__generator__href">Quotes Generator</a>
-        <a href="/infinity-scroll" data-element="infinity__scroll__href">Infinity Scroll</a>
+        ${getHrefElements()}
       </div>
-    `
+    `;
     return html;
   }
 
   getDataElements(rootElement: HTMLElement) {
     let dataElementsEntity = {};
-    const dataElements: NodeListOf<HTMLElement> = rootElement.querySelectorAll("[data-element]");
+    const dataElements: NodeListOf<HTMLElement> =
+      rootElement.querySelectorAll("[data-element]");
 
-    dataElements.forEach(element => {
+    dataElements.forEach((element) => {
       dataElementsEntity = {
         ...dataElementsEntity,
-        [element.dataset.element]: element
-      }
-    })
+        [element.dataset.element]: element,
+      };
+    });
     return dataElementsEntity;
   }
 
@@ -50,38 +61,30 @@ export default class Routes {
     return localOutlet;
   }
 
-  changeLocation(e: MouseEvent) {
-    const { target } = e;
-    if (target) {
-      const href = (target as HTMLLinkElement).href;
-      history.pushState(null, null, href);
-    }
-  }
-
   initEvents(): void {
-    Object.keys(this.#dataElements).forEach(key => {
-      switch (key) {
-        case "quotes__generator__href": {
-          this.#dataElements[key].addEventListener("click", e => {
-            e.preventDefault();
-            this.outlet.innerHTML = "";
-            this.outlet.append(new Quote().element);
-            this.changeLocation(e);
-          })
-          break;
-        }
-        case "infinity__scroll__href": {
-          this.#dataElements[key].addEventListener("click", e => {
-            e.preventDefault();
-            this.outlet.innerHTML = "";
-            this.outlet.append(new InfinityScroll().element);
-            this.changeLocation(e);
-          })
-          break;
-        }
-        default: null
+    const replaceContent = (content: Element) => {
+      this.outlet.innerHTML = "";
+      this.outlet.append(content);
+    }
+
+    const changeLocation = (e: MouseEvent) => {
+      const { target } = e;
+      if (target) {
+        const href = (target as HTMLLinkElement).href;
+        history.pushState(null, null, href);
       }
-    })
+    }
+
+    Object.keys(this.#dataElements).map((key) => {
+      const object = this.routeMap.get(key);
+
+      this.routeMap.get(key) &&
+        this.#dataElements[key].addEventListener("click", (e) => {
+          e.preventDefault();
+          replaceContent(object.element);
+          changeLocation(e);
+        });
+    });
   }
 
   //TODO Упрости меня
@@ -93,9 +96,8 @@ export default class Routes {
 
     this.#dataElements = this.getDataElements(wrapper);
     this.elements = {
-      "rootNavElement": wrapper.firstElementChild,
-      "outlet": this.outlet
+      rootNavElement: wrapper.firstElementChild,
+      outlet: this.outlet,
     };
   }
-
 }
