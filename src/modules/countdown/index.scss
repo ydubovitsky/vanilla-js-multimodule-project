@@ -1,0 +1,58 @@
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-image: url("https://images.unsplash.com/photo-1575203091586-611fe505bb0e?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+}
+
+.content {
+  padding: 50px 100px;
+  box-shadow: 1px 1px 1px silver;
+  background-color: whitesmoke;
+  border-radius: 10px;
+}
+
+.form {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  label {
+    font-size: large;
+    font-weight: bold;
+  }
+
+  input {
+    padding: 10px 5px;
+    border-radius: 10px;
+  }
+
+  .counter {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+}
+
+.unactive {
+  display: none;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 1px 1px 1px silver;
+  background-color: #1C90ED;
+  color: white;
+  font-size: large;
+  transition: 0.3s ease;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
