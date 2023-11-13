@@ -34,6 +34,18 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
+
+    .counter-item {
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+      min-width: 60px;
+      box-shadow: 1px 1px 1px rgb(131, 131, 131);
+      background-color: white;
+      border-radius: 5px;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
