@@ -18,9 +18,13 @@ type CountdownDateType = {
   seconds: string;
 };
 
+type LocalStorageData = {
+  endTime: string
+}
+
 export default class Countdown {
   element: Element;
-  #countdownKey: "countdown";
+  #countdownKey: string;
   dataElements: DataElementsEntityType;
   #state: StateType = {
     goal: "",
@@ -29,18 +33,21 @@ export default class Countdown {
   };
 
   constructor() {
+    this.#countdownKey = "countdown";
     this.render();
     this.initEvents();
     this.onInit();
   }
 
   onInit() {
-    const savedCountDown: CountdownDateType = JSON.parse(
+    const savedCountDown: LocalStorageData = JSON.parse(
       LocalStorageService.loadFromLocalStorage(this.#countdownKey)
     );
     if (savedCountDown) {
       console.log("Countdown data loaded!");
-      //!TODO logic add
+      const start = Date.now();
+      const end = Number(savedCountDown.endTime);
+      this.#updateCounter(start, end, 1000);
     }
   }
 
@@ -106,7 +113,15 @@ export default class Countdown {
           new FormData(this.dataElements["start-form"] as HTMLFormElement)
         ) as StateType;
 
-        this.#updateTemplate();
+        const start = Date.now();
+        const end = new Date(this.#state.endTime).getTime();
+
+        LocalStorageService.saveToLocalStorage(
+          this.#countdownKey,
+          JSON.stringify(end)
+        );
+
+        this.#updateCounter(start, end, 1000);
       }
     );
   }
@@ -135,18 +150,16 @@ export default class Countdown {
     );
   }
 
-  #updateTemplate() {
+  #updateCounter(startTime: number, endTime: number, step: number) {
     const interval = setInterval(() => {
-      const start = Date.now();
-      const end = new Date(this.#state.endTime).getTime();
-      const countDown: CountdownDateType = this.#calculateEndDate(start, end);
-
-      LocalStorageService.saveToLocalStorage(
-        this.#countdownKey,
-        JSON.stringify(countDown)
+      startTime += step;
+      const countDown: CountdownDateType = this.#calculateEndDate(
+        startTime,
+        endTime
       );
+
       this.#updateHtmlTemplate(this.#state.goal, countDown);
-    }, 1000);
+    }, step);
 
     this.#state = {
       ...this.#state,
