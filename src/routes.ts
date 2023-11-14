@@ -58,6 +58,7 @@ export default class Routes {
 
   getOutlet(): HTMLElement {
     const localOutlet = document.createElement("div");
+    localOutlet.style.position = "relative";
     return localOutlet;
   }
 

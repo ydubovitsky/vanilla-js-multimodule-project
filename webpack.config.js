@@ -33,6 +33,10 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.(jpg|png|svg|gif)$/,
+        type: 'asset/resource'
+      }
     ],
   },
   resolve: {
