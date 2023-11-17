@@ -1,5 +1,6 @@
 import "./index.scss";
-import canvasBackgroundSrc from "./assets/background-canvas.png";
+import Board from "./board";
+import Canvas from "./canvas";
 
 type DataElementType = {
   [name: string]: HTMLElement;
@@ -16,7 +17,7 @@ export default class Snake {
     this.startGame();
   }
 
-  onInit() : void {
+  onInit(): void {
     // set dataElements
     this.#dataElements = this.getDataElements(this.element);
 
@@ -25,15 +26,13 @@ export default class Snake {
     this.#context = canvas.getContext("2d");
   }
 
-  startGame() : void {
-    const image : HTMLImageElement = document.createElement("img");
-    image.src = canvasBackgroundSrc;
+  startGame(): void {
+    this.preload();
+  }
 
-    image.addEventListener("load", () => {
-      window.requestAnimationFrame(() => {
-        this.#context.drawImage(image, 0, 0);
-      });
-    })
+  preload() {
+    new Board(15, this.#context);
+    // new Canvas(0, 0, this.#context);
   }
 
   getTemplate() {
